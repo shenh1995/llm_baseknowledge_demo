@@ -53,6 +53,13 @@ prompt = ChatPromptTemplate.from_template(template)
 model = SiliconflowFactory.get_default_model()
 
 # Chain
+# 这个是RAG的chain，
+# 1. 输入是问题和上下文
+# 2. 输出是答案
+# 3. 上下文是检索到的文档
+# 4. 问题是从输入中提取的
+# 5. 答案是模型生成的
+# 6. 模型是硅流模型
 rag_chain = (
         {"question": RunnablePassthrough(), "context": retriever}
         | prompt

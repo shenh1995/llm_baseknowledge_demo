@@ -42,13 +42,12 @@ if __name__ == "__main__":
         template="你是一个语义解析器。你的任务是将用户的输入解析成JSON表示。不要回答用户的问题。\n"
                  "用户输入:{text}\n"
                  "{format_instructions}",
+        # input_variables 表示输入变量，text是用户输入
         input_variables=["text"],
+        # partial_variables 表示部分变量，format_instructions是解析器
+        # get_format_instructions() 获取解析器的格式化指令，按照Semantics格式解析
         partial_variables={"format_instructions": parser.get_format_instructions()},
     )
-
-    # 模型
-    # model = SiliconflowFactory.get_default_model()
-
 
     model = ChatOpenAI(
         api_key="sk-3d0b712661134d72991a4166262cbcea",
@@ -58,6 +57,8 @@ if __name__ == "__main__":
     )
 
     # LCEL 表达式
+    # RunnablePassthrough() 表示将输入原封不动地传递给下一个组件,
+    # 数据传递：它接收输入并原样输出，不进行任何处理
     runnable = (
             {"text": RunnablePassthrough()} | prompt | model | parser
     )
